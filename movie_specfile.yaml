@@ -1,0 +1,144 @@
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: "v1"
+  title: REST API for 'The Movie App'
+  description: |
+    The is a demo Swagger Spec for the sample REST API used by The Movie App that Sandeep Panda developed as part of his great blog post
+    [Creating a CRUD App in Minutes with Angular's $resource](http://www.sitepoint.com/creating-crud-app-minutes-angulars-resource/).
+    
+host: movieapp-sitepointdemos.rhcloud.com
+basePath: /api
+  
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /movies:
+    get:
+      summary: List all movies
+      produces:
+        - application/json 
+      responses:
+        200:
+          description: An array with all movies.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Movie'
+    
+    post:
+      summary: Create a new movie
+      consumes:
+        - application/json 
+      produces:
+        - application/json 
+      parameters:
+        - in: body
+          name: movie
+          description: The movie you want to create.
+          required: true
+          schema:
+            $ref: '#/definitions/Movie'
+      responses:
+        200:
+          description: The movie has been successfully created.
+          schema:
+            $ref: '#/definitions/Message'
+
+
+  /movies/{id}:
+    get:
+      summary: Lookup a specific movie
+      produces:
+        - application/json  
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the movie you want to lookup.
+          required: true
+      responses:
+        200:
+          description: An array with all movies.
+          schema:
+            $ref: '#/definitions/Movie'
+            
+    put:
+      summary: Update a movie
+      consumes:
+        - application/json 
+      produces:
+        - application/json 
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the movie you want to update.
+          required: true
+        - in: body
+          name: movie
+          description: The movie you want update with.
+          required: true
+          schema:
+            $ref: '#/definitions/Movie'
+      responses:
+        200:
+          description: The movie has been successfully updated.
+          schema:
+            $ref: '#/definitions/Message'
+
+    delete:
+      summary: Delete a movie
+      produces:
+        - application/json 
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the movie you want to update.
+          required: true
+      responses:
+        200:
+          description: The movie has been deleted.
+          schema:
+            $ref: '#/definitions/Message'
+
+
+
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Movie:
+    type: object
+    properties:
+      _id:
+        type: number
+        description: A unique identifier of the movie. Automatically assigned by the API when the movie is created.
+      title:
+        type: string
+        description: The official title of the movie. 
+      releaseYear:
+        type: string
+        description: The year that the movie was released.
+      director:
+        type: string
+        description: The director of the movie.
+      genre:
+        type: string
+        description: The genre of the movie.
+      __v:
+        type: number
+        description: An internal version stamp. Not to be updated directly.
+  
+  Message:
+    type: object
+    properties:
+      message:
+        type: string
+        description: A response message from the movie app.

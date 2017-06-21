@@ -1,0 +1,144 @@
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: "1.0.0"
+  title: REST API for 'The Music Station Radio'
+  description: |
+    The is a demo Swagger Specfile for the sample REST API to see the basic CRUD!
+    
+host: movieapp-sitepointdemos.rhcloud.com
+# host: localhost:3000
+basePath: /api
+  
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /music:
+    get:
+      summary: List all music
+      produces:
+        - application/json 
+      responses:
+        200:
+          description: An array with all music.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Music'
+    
+    post:
+      summary: Create a new music
+      consumes:
+        - application/json 
+      produces:
+        - application/json 
+      parameters:
+        - in: body
+          name: music
+          description: The music you want to create.
+          required: true
+          schema:
+            $ref: '#/definitions/Music'
+      responses:
+        200:
+          description: The music has been successfully created.
+          schema:
+            $ref: '#/definitions/Message'
+
+
+  /music/{id}:
+    get:
+      summary: Lookup a specific music
+      produces:
+        - application/json  
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the music you want to lookup.
+          required: true
+      responses:
+        200:
+          description: An array with all music.
+          schema:
+            $ref: '#/definitions/Music'
+            
+    put:
+      summary: Update a music
+      consumes:
+        - application/json 
+      produces:
+        - application/json 
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the music you want to update.
+          required: true
+        - in: body
+          name: music
+          description: The music you want update with.
+          required: true
+          schema:
+            $ref: '#/definitions/Music'
+      responses:
+        200:
+          description: The music has been successfully updated.
+          schema:
+            $ref: '#/definitions/Message'
+
+    delete:
+      summary: Delete a music
+      produces:
+        - application/json 
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: The id of the music you want to update.
+          required: true
+      responses:
+        200:
+          description: The music has been deleted.
+          schema:
+            $ref: '#/definitions/Message'
+
+
+
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Music:
+    type: object
+    properties:
+      _id:
+        type: number
+        description: A unique identifier of the music. Automatically assigned by the API when the music is created.
+      title:
+        type: string
+        description: The official title of the music. 
+      releaseYear:
+        type: string
+        description: The year that the music was released.
+      producer:
+        type: string
+        description: The producer of the music.
+      genre:
+        type: string
+        description: The genre of the music.
+      __v:
+        type: number
+        description: An internal version stamp. Not to be updated directly.
+  
+  Message:
+    type: object
+    properties:
+      message:
+        type: string
+        description: A response message from the music app.
